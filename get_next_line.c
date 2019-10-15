@@ -6,12 +6,11 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 11:16:56 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/14 18:39:00 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/15 12:50:13 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
 
 int		get_next_line(int fd, char **line)
 {
@@ -32,30 +31,12 @@ int		get_next_line(int fd, char **line)
 		s[fd] = ft_strjoin(s[fd], buf);
 		free(tmp);
 	}
-	*line = ft_substr(s[fd], 0, ft_strclen(s[fd]) + 1);
+	*line = ft_substr(s[fd], 0, ft_strlen_gnl(s[fd]) + 1);
 	if (is_in_s('\n', s[fd]) >= 0)
-	{
 		s[fd] = ft_substr(s[fd], is_in_s('\n', s[fd]) + 1, ft_strlen(s[fd]));
-		return (SUCCESS);
-	}
-	return (FINISH);
-}
-
-int		main(int argc, char **argv)
-{
-	int		fd;
-	int		i;
-	char	*line;
-	(void)argc;
-	
-	i = 0;
-	if ((fd = open(argv[1], O_RDONLY)) < 0)
-		return (ERROR);
-	while (get_next_line(fd, &line))
-	{
-		printf("%s",line);
-		i++;
-	}
-	if (close(fd) == -1)
-		return (ERROR);
+	else if (ft_strlen_gnl(s[fd]) > 0)
+		s[fd] = ft_substr(s[fd], is_in_s('\0', s[fd]) + 1, ft_strlen(s[fd]));
+	else
+		return (FINISH);
+	return (SUCCESS);
 }
