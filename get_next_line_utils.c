@@ -6,11 +6,9 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 15:40:46 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/15 12:57:40 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/17 18:33:34 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
 {
@@ -22,7 +20,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int		ft_strlen_gnl(char *s)
+size_t	ft_strlen_gnl(char *s)
 {
 	int		i;
 
