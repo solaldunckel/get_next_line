@@ -6,88 +6,24 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 11:16:56 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/18 10:33:05 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/23 22:19:32 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *s, int gnl)
+int		handle_line(char *s[], char **line, int ret, int fd)
 {
-	size_t		i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == '\n' && gnl)
-			return (i);
-		i++;
-	}
-	return (i);
-}
-
-int		is_in_s(char c, char *str)
-{
-	int		i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i);
-		i++;
-	}
-	if (str[i] == c)
-		return (i);
-	return (-1);
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*str;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (!(str = (char*)malloc(sizeof(char) *
-		(ft_strlen(s1, 0) + ft_strlen(s2, 0) + 1))))
-		return (NULL);
-	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (s2[j])
-	{
-		str[i + j] = s2[j];
-		j++;
-	}
-	str[i + j] = '\0';
-	return (str);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	if (!s)
-		return (NULL);
-	if (start > ft_strlen(s, 0))
-		return ("\0");
-	if (!(str = malloc(sizeof(char) * len + 1)))
-		return (NULL);
-	while (s[start] && len)
-	{
-		str[i] = s[start];
-		i++;
-		start++;
-		len--;
-	}
-	str[i] = '\0';
-	return (str);
+	*line = ft_substr(s[fd], 0, ft_strlen(s[fd], 1));
+	if (ret == 0)
+		return (FINISH);
+	if (is_in_s('\n', s[fd]) >= 0)
+		s[fd] = ft_substr(s[fd], is_in_s('\n', s[fd]) + 1, ft_strlen(s[fd], 0));
+	else if (ft_strlen(s[fd], 1) > 0)
+		s[fd] = ft_substr(s[fd], is_in_s('\0', s[fd]) + 1, ft_strlen(s[fd], 0));
+	else
+		return (FINISH);
+	return (SUCCESS);
 }
 
 int		get_next_line(int fd, char **line)
@@ -108,13 +44,7 @@ int		get_next_line(int fd, char **line)
 		s[fd] = ft_strjoin(s[fd], buf);
 		free(tmp);
 	}
-	if (ret > 0 || ft_strlen(s[fd], 1) > 0)
-		*line = ft_substr(s[fd], 0, ft_strlen(s[fd], 1));
-	if (is_in_s('\n', s[fd]) >= 0)
-		s[fd] = ft_substr(s[fd], is_in_s('\n', s[fd]) + 1, ft_strlen(s[fd], 0));
-	else if (ft_strlen(s[fd], 1) > 0)
-		s[fd] = ft_substr(s[fd], is_in_s('\0', s[fd]) + 1, ft_strlen(s[fd], 0));
-	else
+	if (!handle_line(s, &*line, ret, fd))
 		return (FINISH);
 	return (SUCCESS);
 }
