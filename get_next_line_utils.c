@@ -6,7 +6,7 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 15:40:46 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/23 22:17:54 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/25 20:44:47 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	j = 0;
-	if (!(str = (char*)malloc(sizeof(char) *
+	if (!(str = malloc(sizeof(char) *
 		(ft_strlen(s1, 0) + ft_strlen(s2, 0) + 1))))
 		return (NULL);
 	while (s1[i])
@@ -67,6 +67,23 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
+char	*ft_strdup(const char *s1)
+{
+	char	*str;
+	int		i;
+
+	i = 0;
+	if (!(str = (char*)malloc(sizeof(char) * ft_strlen(s1, 0) + 1)))
+		return (NULL);
+	while (s1[i])
+	{
+		str[i] = (char)s1[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*str;
@@ -76,7 +93,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (start > ft_strlen(s, 0))
-		return ("\0");
+		return (ft_strdup("\0"));
 	if (!(str = malloc(sizeof(char) * len + 1)))
 		return (NULL);
 	while (s[start] && len)

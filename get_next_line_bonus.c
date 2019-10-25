@@ -6,23 +6,29 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 11:16:56 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/23 22:19:32 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/25 20:51:05 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-int		handle_line(char *s[], char **line, int ret, int fd)
+int		handle_line(char *s[], int fd)
 {
-	*line = ft_substr(s[fd], 0, ft_strlen(s[fd], 1));
-	if (ret == 0)
-		return (FINISH);
+	char	*tmp;
+
 	if (is_in_s('\n', s[fd]) >= 0)
+	{
+		tmp = s[fd];
 		s[fd] = ft_substr(s[fd], is_in_s('\n', s[fd]) + 1, ft_strlen(s[fd], 0));
-	else if (ft_strlen(s[fd], 1) > 0)
-		s[fd] = ft_substr(s[fd], is_in_s('\0', s[fd]) + 1, ft_strlen(s[fd], 0));
+		free(tmp);
+	}
 	else
+	{
+		tmp = s[fd];
+		s[fd] = ft_substr(s[fd], is_in_s('\0', s[fd]) + 1, ft_strlen(s[fd], 0));
+		free(tmp);
 		return (FINISH);
+	}
 	return (SUCCESS);
 }
 
@@ -44,7 +50,8 @@ int		get_next_line(int fd, char **line)
 		s[fd] = ft_strjoin(s[fd], buf);
 		free(tmp);
 	}
-	if (!handle_line(s, &*line, ret, fd))
+	*line = ft_substr(s[fd], 0, ft_strlen(s[fd], 1));
+	if (!handle_line(s, fd))
 		return (FINISH);
 	return (SUCCESS);
 }
