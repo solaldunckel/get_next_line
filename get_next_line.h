@@ -6,7 +6,7 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 11:17:21 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/25 20:46:19 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/26 13:36:58 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,11 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-size_t	ft_strlen(const char *s, int gnl);
+size_t	ft_strlen(char *s, int gnl);
 int		is_in_s(char c, char *str);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-int		handle_line(char *s[], int fd);
-char	*ft_strdup(const char *s1);
+char	*ft_strjoin_n_free(char *s1, char *s2);
+char	*ft_substr(char *s, unsigned int start, size_t len);
+void	*ft_calloc(size_t count, size_t size);
 int		get_next_line(int fd, char **line);
 
 #endif

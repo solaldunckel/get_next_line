@@ -6,13 +6,13 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 22:19:51 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/25 20:46:47 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/26 14:12:42 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-size_t	ft_strlen(const char *s, int gnl)
+size_t	ft_strlen(char *s, int gnl)
 {
 	size_t		i;
 
@@ -42,7 +42,7 @@ int		is_in_s(char c, char *str)
 	return (-1);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin_n_free(char *s1, char *s2)
 {
 	char	*str;
 	int		i;
@@ -63,28 +63,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[i + j] = s2[j];
 		j++;
 	}
+	free(s1);
 	str[i + j] = '\0';
 	return (str);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	char	*str;
-	int		i;
-
-	i = 0;
-	if (!(str = (char*)malloc(sizeof(char) * ft_strlen(s1, 0) + 1)))
-		return (NULL);
-	while (s1[i])
-	{
-		str[i] = (char)s1[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*str;
 	int		i;
@@ -93,7 +77,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	if (start > ft_strlen(s, 0))
-		return (ft_strdup("\0"));
+		return (NULL);
 	if (!(str = malloc(sizeof(char) * len + 1)))
 		return (NULL);
 	while (s[start] && len)
@@ -105,4 +89,22 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	}
 	str[i] = '\0';
 	return (str);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*mem;
+	size_t	i;
+	char	*s;
+
+	i = 0;
+	if (!(mem = malloc(count * size)))
+		return (NULL);
+	s = mem;
+	while (i < count * size)
+	{
+		s[i] = 0;
+		i++;
+	}
+	return (mem);
 }
