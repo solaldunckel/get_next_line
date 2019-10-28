@@ -6,7 +6,7 @@
 /*   By: sdunckel <sdunckel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/11 15:40:46 by sdunckel          #+#    #+#             */
-/*   Updated: 2019/10/26 13:36:31 by sdunckel         ###   ########.fr       */
+/*   Updated: 2019/10/28 16:23:53 by sdunckel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ char	*ft_strjoin_n_free(char *s1, char *s2)
 
 	i = 0;
 	j = 0;
-	if (!(str = malloc(sizeof(char) *
-		(ft_strlen(s1, 0) + ft_strlen(s2, 0) + 1))))
+	if (!(str = ft_calloc(ft_strlen(s1, 0) + ft_strlen(s2, 0) + 1, 1)))
 		return (NULL);
 	while (s1[i])
 	{
@@ -78,7 +77,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 		return (NULL);
 	if (start > ft_strlen(s, 0))
 		return (NULL);
-	if (!(str = malloc(sizeof(char) * len + 1)))
+	if (!(str = ft_calloc(len + 1, sizeof(char))))
 		return (NULL);
 	while (s[start] && len)
 	{
